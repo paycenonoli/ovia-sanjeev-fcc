@@ -147,13 +147,17 @@ resource "aws_network_interface" "web-server-nic" {
 
 }
 # Assign an Elastic IP
-resource "aws_eip" "one" {
+resource "aws_eip" "ovia-eip" {
   domain                    = "vpc"
   network_interface         = aws_network_interface.web-server-nic.id
   associate_with_private_ip = "10.0.1.50"
   depends_on = [aws_internet_gateway.ovia-igw]
 }
 
+# Get value of Elastic IP
+output "server_public_ip" {
+  value = aws_eip.ovia-eip.public_ip
+}
 # Create an EC2 instance
 resource "aws_instance" "ovia-instance" {
   ami                     = "ami-0e83be366243f524a"
