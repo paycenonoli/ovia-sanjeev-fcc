@@ -58,7 +58,7 @@ provider "aws" {
 
 # Create a VPC
 resource "aws_vpc" "ovia-vpc" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = var.ovia_vpc_cidr
   tags ={
     Name = "Production"
   }
@@ -179,6 +179,12 @@ resource "aws_instance" "ovia-instance" {
   tags = {
     Name = "web-server"
   }
- 
+}
 
+output "server_private_ip" {
+  value = aws_instance.ovia-instance.private_ip
+}
+
+output "server_id" {
+  value = aws_instance.ovia-instance.id
 }
